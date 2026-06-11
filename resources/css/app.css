@@ -1,0 +1,313 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+    /* =========================================
+    1. GLOBAL SETUP
+       ========================================= */
+    body {
+        background-color: #f8f9fa;
+        /* Abu-abu sangat muda */
+        font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Tambah Poppins biar modern */
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main {
+        flex: 1;
+        
+    }
+
+    /* =========================================
+    2. NAVBAR STYLING
+       ========================================= */
+    .navbar {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* Bayangan halus */
+        background-color: white;
+    }
+
+    .navbar-brand span {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: #6a35c9;
+        
+    }
+
+    /* =========================================
+    3. CARD KELAS (TEMA UNGU)
+       ========================================= */
+    .class-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+        border: none;
+        border-radius: 20px;
+        
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+        position: relative;
+        overflow: hidden;
+        background-color: white;
+    }
+
+    .class-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(140, 82, 255, 0.2);
+        background-color: #f3e8ff;
+    }
+
+    .icon-large {
+        font-size: 3rem;
+        color: #8c52ff;
+        transition: transform 0.3s;
+    }
+
+    .class-card:hover .icon-large {
+        transform: scale(1.1);
+        color: #6a35c9;
+    }
+
+    /* =========================================
+    4. FOOTER STYLING
+       ========================================= */
+    footer {
+        background-color: #ffffff;
+        font-size: 0.9rem;
+        border-top: 1px solid #e9ecef;
+    }
+
+    /* =========================================
+    5. HALAMAN LOGIN (TEMA UNGU)
+       ========================================= */
+    body.login-page {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #f3f4f6;
+        /* Sedikit lebih gelap dari putih */
+    }
+
+    /* Card Login Custom */
+    .card-login {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    /* Header Gradient UNGU */
+    .login-header {
+        /* Gradient Ungu sesuai gambar dashboard */
+        background: linear-gradient(135deg, #8c52ff 0%, #6a35c9 100%);
+        color: white;
+        padding: 35px 30px;
+        text-align: center;
+    }
+
+    /* Tombol Login UNGU */
+    .btn-login {
+        background-color: #8c52ff;
+        /* Ungu Utama */
+        border: none;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        width: 100%;
+        border-radius: 10px;
+        transition: all 0.3s;
+        color: white;
+    }
+
+    .btn-login:hover {
+        background-color: #6a35c9;
+        /* Ungu Gelap */
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(140, 82, 255, 0.4);
+        /* Glow Ungu */
+    }
+
+    /* Helper untuk teks ungu */
+    .text-primary-custom {
+        color: #8c52ff !important;
+    }
+
+    .text-primary-custom:hover {
+        color: #6a35c9 !important;
+        text-decoration: underline;
+    }
+
+    /* Hero Section (Banner Besar Ungu) */
+    .hero-section {
+        background: linear-gradient(135deg, #8c52ff 0%, #6a35c9 100%);
+        color: white;
+        padding: 100px 0 80px 0;
+        border-bottom-left-radius: 50px;
+        border-bottom-right-radius: 50px;
+        margin-bottom: 50px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Navbar Khusus Landing Page */
+    .landing-navbar {
+        background-color: transparent;
+        padding-top: 20px;
+        position: absolute;
+        width: 100%;
+        top: 0;
+        z-index: 10;
+    }
+
+    .landing-navbar .nav-link {
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-weight: 600;
+        margin-left: 20px;
+    }
+
+    .landing-navbar .nav-link:hover {
+        color: white !important;
+    }
+
+    .landing-navbar .btn-light {
+        color: #8c52ff;
+        font-weight: bold;
+        border-radius: 20px;
+        padding: 8px 25px;
+    }
+
+    /* Fitur Card (Kotak info di bawah hero) */
+    .feature-box {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s;
+        text-align: center;
+        height: 100%;
+    }
+
+    .feature-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(140, 82, 255, 0.15);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        background: #f3e8ff;
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
+        border-radius: 50%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.sticky-col {
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    border-right: 2px solid #8c52ff !important;
+    box-shadow: 4px 0 5px -2px rgba(0,0,0,0.05); 
+}
+
+/* Fix: Header sticky butuh z-index lebih tinggi */
+thead th.sticky-col {
+    z-index: 25 !important; 
+}
+
+/* Fix: Bayangan untuk header */
+thead.sticky-top th {
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* 2. Table Hover Effects */
+.table-hover tbody tr:hover td.sticky-col {
+    background-color: #fff;
+    color: #000;
+}
+.table-hover tbody tr:hover td {
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* 3. Utility Classes */
+.small-header {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+.transition-cell {
+    transition: all 0.3s ease;
+}
+
+/* 4. Button Animations */
+.hover-lift {
+    transition: transform 0.2s;
+}
+.hover-lift:hover {
+    transform: translateY(-3px);
+}
+.hover-shadow {
+    transition: all 0.2s;
+}
+.hover-shadow:hover {
+    background-color: #8c52ff;
+    border-color: #8c52ff;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
+
+/* 5. Custom Scrollbar */
+.table-responsive::-webkit-scrollbar {
+    height: 8px;
+}
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #ccc; 
+    border-radius: 4px;
+}
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #aaa; 
+}
+
+:root {
+    /* Warna Ungu Utama (Matching Navbar) */
+    --color-theme: #9333ea;       /* Purple 600 */
+    --color-theme-dark: #7e22ce;  /* Purple 700 */
+    --color-theme-light: #f3e8ff; /* Purple 100 (Subtle) */
+}
+
+/* 1. Background Gradient untuk Header Tabel */
+.bg-purple-gradient {
+    background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%) !important;
+    color: white;
+}
+
+/* 2. Text Color */
+.text-purple-theme {
+    color: var(--color-theme) !important;
+}
+
+/* 3. Badge/Label Background */
+.bg-purple-subtle {
+    background-color: var(--color-theme-light) !important;
+    color: var(--color-theme-dark) !important;
+}
+
+/* 4. Button Custom (Outline Purple) */
+.btn-outline-purple {
+    color: var(--color-theme);
+    border-color: var(--color-theme);
+}
+.btn-outline-purple:hover {
+    background-color: var(--color-theme);
+    color: white;
+}   
