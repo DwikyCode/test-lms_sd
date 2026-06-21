@@ -27,7 +27,8 @@ class AbsensiController extends Controller
 
         foreach ($request->absensi as $siswa_id => $status) {
             Absensi::updateOrCreate(
-                ['siswa_id' => $siswa_id, 'tanggal' => $tanggal],
+                ['siswa_id' => $siswa_id, 
+                'tanggal' => $tanggal],
                 ['kelas' => $id_kelas, 'status' => $status]
             );
         }
