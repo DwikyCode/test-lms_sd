@@ -1,116 +1,129 @@
-<?php
+    <?php
 
+    use App\Models\Materi;
 use App\Models\User;
-use App\Models\Materi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->admin = User::factory()->create(['role' => 'admin']);
-    $this->user = User::factory()->create(['role' => 'user']);
-});
-it('can display materi by class', function () {
-
-    $response = $this->actingAs($this->admin)
-        ->get('/kelas/1/materi');
-
-    $response->assertStatus(200);
-});
-it('only shows materi for selected class', function () {
-
-    Materi::create([
-        'judul' => 'Matematika',
-        'link_video' => 'https://youtube.com/test',
-        'id_kelas' => '1'
+    $this->admin = User::factory()->create([
+        'role' => 'admin',
+        'email_verified_at' => now(),
     ]);
 
-    Materi::create([
-        'judul' => 'Bahasa',
-        'link_video' => 'https://youtube.com/test2',
-        'id_kelas' => '2'
+    $this->actingAs($this->admin);
+});
+
+// CREATE - Path 1
+test('Gagal mengakses halaman tambah materi sebagai guru', function () {
+    $guru = User::factory()->create([
+        'role' => 'guru',
+        'email_verified_at' => now(),
     ]);
 
-    $response = $this->actingAs($this->admin)
-        ->get('/kelas/1/materi');
-
-    $response->assertStatus(200);
-});
-it('admin can access create page', function () {
-
-    $response = $this->actingAs($this->admin)
-        ->get('/kelas/1/materi/create');
-
-    $response->assertStatus(200);
-});
-it('user cannot access create page', function () {
-
-    $response = $this->actingAs($this->user)
-        ->get('/kelas/1/materi/create');
+    $response = $this
+        ->actingAs($guru)
+        ->get(route('materi.create', 1));
 
     $response->assertRedirect();
 });
-it('admin can store materi', function () {
 
-    $response = $this->actingAs($this->admin)
-        ->post('/materi/store', [
-            'judul' => 'Matematika',
+// CREATE - Path 2
+test('Berhasil mengakses halaman tambah materi sebagai admin', function () {
+    $response = $this->get(route('materi.create', 1));
+
+    $response->assertOk();
+});
+
+// STORE - Path 1
+test('Gagal menambahkan materi sebagai guru', function () {
+    $guru = User::factory()->create([
+        'role' => 'guru',
+        'email_verified_at' => now(),
+    ]);
+
+    $response = $this
+        ->actingAs($guru)
+        ->post(route('materi.store'), [
+            'judul' => 'Video Test',
             'link_video' => 'https://youtube.com/test',
-            'deskripsi' => 'Belajar dasar',
-            'id_kelas' => '1'
+            'id_kelas' => 1,
         ]);
 
-    $response->assertRedirect();
+    $response->assertForbidden();
+});
+
+// STORE - Path 2
+test('Gagal menambahkan materi ketika data wajib kosong', function () {
+    $response = $this->post(route('materi.store'), []);
+
+    $response->assertSessionHasErrors([
+        'judul',
+        'link_video',
+        'id_kelas',
+    ]);
+});
+
+// STORE - Path 3
+test('Berhasil menambahkan materi', function () {
+    $response = $this->post(route('materi.store'), [
+        'judul' => 'Video Test',
+        'link_video' => 'https://youtube.com/test',
+        'deskripsi' => 'Deskripsi video',
+        'id_kelas' => 1,
+    ]);
+
+    $response->assertRedirect(route('materi.index', 1));
 
     $this->assertDatabaseHas('materis', [
-        'judul' => 'Matematika'
-    ]);
-});
-it('fails validation when store empty', function () {
-
-    $response = $this->actingAs($this->admin)
-        ->post('/materi/store', []);
-
-    $response->assertSessionHasErrors();
-});
-it('non admin cannot store materi', function () {
-
-    $response = $this->actingAs($this->user)
-        ->post('/materi/store', [
-            'judul' => 'Test',
-            'link_video' => 'https://youtube.com/test',
-            'id_kelas' => '1'
-        ]);
-
-    $response->assertStatus(403);
-});
-it('admin can delete materi', function () {
-
-    $materi = Materi::create([
-        'judul' => 'Test',
+        'judul' => 'Video Test',
         'link_video' => 'https://youtube.com/test',
-        'id_kelas' => '1'
+        'deskripsi' => 'Deskripsi video',
+        'id_kelas' => 1,
+    ]);
+});
+
+// DESTROY - Path 1
+test('Gagal menghapus materi sebagai guru', function () {
+    $materi = Materi::create([
+        'judul' => 'Video Test',
+        'link_video' => 'https://youtube.com/test',
+        'id_kelas' => 1,
     ]);
 
-    $response = $this->actingAs($this->admin)
-        ->delete('/materi/'.$materi->id);
+    $guru = User::factory()->create([
+        'role' => 'guru',
+        'email_verified_at' => now(),
+    ]);
 
-    $response->assertRedirect();
+    $response = $this
+        ->actingAs($guru)
+        ->delete(route('materi.destroy', $materi->id));
+
+    $response->assertForbidden();
+});
+
+// DESTROY - Path 2
+test('Gagal menghapus materi ketika ID tidak ditemukan', function () {
+    $response = $this->delete(route('materi.destroy', 9999));
+
+    $response->assertNotFound();
+});
+
+// DESTROY - Path 3
+test('Berhasil menghapus materi', function () {
+    $materi = Materi::create([
+        'judul' => 'Video Test',
+        'link_video' => 'https://youtube.com/test',
+        'id_kelas' => 1,
+    ]);
+
+    $response = $this->delete(route('materi.destroy', $materi->id));
+
+    $response->assertRedirect(route('materi.index', 1));
 
     $this->assertDatabaseMissing('materis', [
-        'id' => $materi->id
+        'id' => $materi->id,
     ]);
-});
-it('user cannot delete materi', function () {
-
-    $materi = Materi::create([
-        'judul' => 'Test',
-        'link_video' => 'https://youtube.com/test',
-        'id_kelas' => '1'
-    ]);
-
-    $response = $this->actingAs($this->user)
-        ->delete('/materi/'.$materi->id);
-
-    $response->assertStatus(403);
 });
