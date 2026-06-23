@@ -5,7 +5,7 @@ use App\Models\Siswa;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 test('user bisa melihat daftar siswa di suatu kelas', function () {
     $user = User::factory()->create();

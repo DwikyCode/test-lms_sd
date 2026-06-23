@@ -1,0 +1,5 @@
+BASE_URL = "http://localhost:8000"
+ADMIN_EMAIL = "hadhie@sekolah.id"
+ADMIN_PASSWORD = "hadhieganteng"
+GURU_EMAIL = "tri@sekolah.id"
+GURU_PASSWORD = "4321"
